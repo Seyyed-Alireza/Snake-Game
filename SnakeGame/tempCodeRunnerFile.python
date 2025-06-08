@@ -1,0 +1,133 @@
+import pygame
+import time
+import random
+
+# مقداردهی اولیه
+pygame.init()
+
+# تنظیمات صفحه
+width = 600
+height = 400
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption('Snake Game')
+
+# رنگ‌ها
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (213, 50, 80)
+GREEN = (0, 255, 0)
+BLUE = (50, 153, 213)
+
+# تنظیمات مار
+block_size = 20
+snake_speed = 15
+clock = pygame.time.Clock()
+
+font_style = pygame.font.SysFont("bahnschrift", 25)
+score_font = pygame.font.SysFont("comicsansms", 25)
+
+# امتیاز
+def your_score(score):
+    value = score_font.render("امتیاز: " + str(score), True, RED)
+    screen.blit(value, [10, 10])
+
+# رسم مار
+def draw_snake(block_size, snake_list):
+    for block in snake_list:
+        pygame.draw.rect(screen, GREEN, [block[0], block[1], block_size, block_size])
+
+# پیام باخت
+def message(msg, color):
+    mesg = font_style.render(msg, True, color)
+    screen.blit(mesg, [width / 6, height / 3])
+
+# حلقه اصلی بازی
+def gameLoop():
+    game_over = False
+    game_close = False
+
+    x1 = width / 2
+    y1 = height / 2
+
+    x1_change = 0
+    y1_change = 0
+
+    snake_List = []
+    Length_of_snake = 1
+
+    # مکان تصادفی غذا
+    foodx = round(random.randrange(0, width - block_size) / 20.0) * 20.0
+    foody = round(random.randrange(0, height - block_size) / 20.0) * 20.0
+
+    while not game_over:
+
+        while game_close:
+            screen.fill(BLUE)
+            message("باختی! Q=خروج یا C=ادامه", RED)
+            your_score(Length_of_snake - 1)
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_over = True
+                    game_close = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        game_over = True
+                        game_close = False
+                    if event.key == pygame.K_c:
+                        gameLoop()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_over = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT and x1_change == 0:
+                    x1_change = -block_size
+                    y1_change = 0
+                elif event.key == pygame.K_RIGHT and x1_change == 0:
+                    x1_change = block_size
+                    y1_change = 0
+                elif event.key == pygame.K_UP and y1_change == 0:
+                    y1_change = -block_size
+                    x1_change = 0
+                elif event.key == pygame.K_DOWN and y1_change == 0:
+                    y1_change = block_size
+                    x1_change = 0
+
+        if x1 >= width or x1 < 0 or y1 >= height or y1 < 0:
+            game_close = True
+
+        x1 += x1_change
+        y1 += y1_change
+        screen.fill(BLUE)
+        pygame.draw.rect(screen, RED, [foodx, foody, block_size, block_size])
+        snake_Head = []
+        snake_Head.append(x1)
+        snake_Head.append(y1)
+        snake_List.append(snake_Head)
+        if len(snake_List) > Length_of_snake:
+            del snake_List[0]
+
+        # برخورد با خودش
+        for block in snake_List[:-1]:
+            if block == snake_Head:
+                game_close = True
+
+        draw_snake(block_size, snake_List)
+        your_score(Length_of_snake - 1)
+
+        pygame.display.update()
+
+        # برخورد با غذا
+        if x1 == foodx and y1 == foody:
+            foodx = round(random.randrange(0, width - block_size) / 20.0) * 20.0
+            foody = round(random.randrange(0, height - block_size) / 20.0) * 20.0
+            Length_of_snake += 1
+
+        clock.tick(snake_speed)
+
+    pygame.quit()
+    quit()
+
+gameLoop()
