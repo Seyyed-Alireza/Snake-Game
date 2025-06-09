@@ -36,6 +36,8 @@ def get_high_score():
     global high_score
     cursor.execute('select max(score) from scores')
     high = cursor.fetchone()
+    if high and high[0] is not None:
+        cursor.execute('delete from scores where score < ?', (high[0],))
     return high[0] if high and high[0] is not None else 0
 
 def close_db():

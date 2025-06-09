@@ -20,7 +20,6 @@ def load_music(path):
         songs = [os.path.join(music_folder, file) for file in os.listdir(music_folder) if file.endswith(".mp3")]
         random.shuffle(songs)
         current_index = 0
-        print(songs)
         if songs:
             return play_current()
         return False
