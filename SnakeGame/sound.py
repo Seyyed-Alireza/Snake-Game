@@ -16,16 +16,25 @@ current_index = 0
 def load_music(path):
     global songs, current_index
     music_folder = f'assets/{path}'
-    songs = [os.path.join(music_folder, file) for file in os.listdir(music_folder) if file.endswith(".mp3")]
-    random.shuffle(songs)
-    current_index = 0
-    if songs:
-        play_current()
+    try:
+        songs = [os.path.join(music_folder, file) for file in os.listdir(music_folder) if file.endswith(".mp3")]
+        random.shuffle(songs)
+        current_index = 0
+        print(songs)
+        if songs:
+            return play_current()
+        return False
+    except:
+        return False
 
 def play_current():
     if songs:
-        pygame.mixer.music.load(songs[current_index])
-        pygame.mixer.music.play()
+        try:    
+            pygame.mixer.music.load(songs[current_index])
+            pygame.mixer.music.play()
+            return True
+        except:
+            return False
 
 def eat_sound():
     eat = pygame.mixer.Sound('assets/eat/eat.wav')

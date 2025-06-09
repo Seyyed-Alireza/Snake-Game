@@ -13,6 +13,7 @@ WHITE = (255, 255, 255)
 button_hover = (110, 110, 60)
 BLACK = (0, 0, 0)
 DIGITS = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
+what_level = 'easy'
 
 clock = pygame.time.Clock()
 x, y = width // 2, height // 2
@@ -83,8 +84,8 @@ while running:
 
     if should_update_music:
         sound.stop_music()
-        sound.load_music(what_level)
-        should_update_music = False
+        if sound.load_music(what_level):
+            should_update_music = False
 
     screen.fill(BLACK)
     score_now = score.get_score()
