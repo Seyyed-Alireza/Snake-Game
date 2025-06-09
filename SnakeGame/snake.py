@@ -2,6 +2,7 @@ import pygame
 import random
 from food import food_coordinate
 from score import add_score
+from sound import eat_sound
 
 
 class Tail:
@@ -99,6 +100,7 @@ def game(width, height, step, x, y, food_x, food_y, tails, food_imoji):
                 y_before = y 
                 x_before = x
             if y < food_y + step and y >= food_y and x == food_x:
+                eat_sound()
                 food_x, food_y, tails, food_imoji = food_ate(width, height, step, tails)
         elif before_move == 'gr':
             x += move_step
@@ -113,6 +115,7 @@ def game(width, height, step, x, y, food_x, food_y, tails, food_imoji):
                 x_before = x 
                 y_before = y
             if x + step > food_x and x <= food_x and y == food_y:
+                eat_sound()
                 food_x, food_y, tails, food_imoji = food_ate(width, height, step, tails)
         elif before_move == 'gu':
             y -= move_step
@@ -127,6 +130,7 @@ def game(width, height, step, x, y, food_x, food_y, tails, food_imoji):
                 y_before = y
                 x_before = x
             if y + step > food_y and y <= food_y and x == food_x:
+                eat_sound()
                 food_x, food_y, tails, food_imoji = food_ate(width, height, step, tails)
         elif before_move == 'gr':
             x += move_step
@@ -141,6 +145,7 @@ def game(width, height, step, x, y, food_x, food_y, tails, food_imoji):
                 x_before = x
                 y_before = y
             if x < food_x + step and x >= food_x and y == food_y:
+                eat_sound()
                 food_x, food_y, tails, food_imoji = food_ate(width, height, step, tails)
         elif before_move == 'gu':
             y -= move_step

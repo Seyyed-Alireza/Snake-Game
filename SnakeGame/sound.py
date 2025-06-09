@@ -9,6 +9,7 @@ import pygame
 import os
 import random
 
+pygame.mixer.init()
 songs = []
 current_index = 0
 
@@ -25,6 +26,10 @@ def play_current():
     if songs:
         pygame.mixer.music.load(songs[current_index])
         pygame.mixer.music.play()
+
+def eat_sound():
+    eat = pygame.mixer.Sound('assets/eat/eat.wav')
+    eat.play()
 
 def stop_music():
     pygame.mixer.music.stop()
