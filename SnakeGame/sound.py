@@ -8,6 +8,8 @@
 import pygame
 import os
 import random
+from pathlib import Path
+base_path = Path(__file__).resolve().parent
 
 pygame.mixer.init()
 songs = []
@@ -15,7 +17,7 @@ current_index = 0
 
 def load_music(path):
     global songs, current_index
-    music_folder = f'assets/{path}'
+    music_folder = base_path/f'assets/{path}'
     try:
         songs = [os.path.join(music_folder, file) for file in os.listdir(music_folder) if file.endswith(".mp3")]
         random.shuffle(songs)
@@ -36,7 +38,8 @@ def play_current():
             return False
 
 def eat_sound():
-    eat = pygame.mixer.Sound('assets/eat/eat.wav')
+    eat = pygame.mixer.Sound(base_path/'assets/eat/eat.wav')
+    eat.set_volume(0.45)
     eat.play()
 
 def stop_music():
