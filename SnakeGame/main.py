@@ -5,6 +5,7 @@ from snake import game, reset_snake
 from food import food_coordinate
 import score
 import sound
+import random
 
 width = 960
 height = 672
@@ -125,7 +126,8 @@ while running:
         tail_y = tail.y_now + init_height + step / 2
         if math.hypot(head_x - tail_x, head_y - tail_y) < step * 0.5:
             end_game = True
-        pygame.draw.circle(screen, tail.color, (tail.x_now + step / 2, tail.y_now + init_height + step / 2), step / 2)
+        # pygame.draw.circle(screen, tail.color, (tail.x_now + step / 2, tail.y_now + init_height + step / 2), step / 2)
+        pygame.draw.circle(screen, (random.randint(70, 225), random.randint(70, 225), random.randint(70, 225)), (tail.x_now + step / 2, tail.y_now + init_height + step / 2), step / 2)
 
     fod_emoji = emoji_font.render(food_emoji, True, (255, 255, 255))
     screen.blit(fod_emoji, (food_x - 2, food_y + init_height))
