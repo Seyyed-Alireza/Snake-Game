@@ -152,20 +152,21 @@ def game(width, height, step, x, y, food_x, food_y, tails, food_imoji):
         elif before_move == 'gd':
             y += move_step
 
-    if len(moves_before) >= step // 3 - 2:
+    tail_distance = step // 3 - 2
+    if len(moves_before) >= tail_distance:
         x_before, y_before = moves_before[0]
         moves_before.pop(0)
     moves_before.append([x, y])
 
     if len(tails) != 0:
-        if len(tails[0].moves_before) >= step // 3 - 2:
+        if len(tails[0].moves_before) >= tail_distance:
             tails[0].x_before, tails[0].y_before = tails[0].moves_before[0]
             tails[0].moves_before.pop(0)
         tails[0].moves_before.append([tails[0].x_now, tails[0].y_now])
         tails[0].x_now = x_before
         tails[0].y_now = y_before
         for i in range(1, len(tails)):
-            if len(tails[i].moves_before) >= step // 3 - 2:
+            if len(tails[i].moves_before) >= tail_distance:
                 tails[i].x_before, tails[i].y_before = tails[i].moves_before[0]
                 tails[i].moves_before.pop(0)
             tails[i].moves_before.append([tails[i].x_now, tails[i].y_now])
